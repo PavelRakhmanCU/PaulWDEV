@@ -641,6 +641,7 @@ body {
   display: flex;
   height: 158px;
   padding: 5px;
+  overflow: hidden;
   background: rgba(3, 14, 18, 0.96);
   border: 5px solid rgba(1, 6, 10, 0.98);
   outline: 1px solid rgba(92, 216, 90, 0.65);
@@ -649,6 +650,47 @@ body {
     0 0 8px rgba(92, 216, 90, 0.32),
     0 0 20px rgba(92, 216, 90, 0.14),
     inset 0 0 0 1px rgba(16, 120, 105, 0.2);
+}
+
+/* Mockup slides in on hover (semi-transparent overlay); inset matches frame padding area */
+.gallery-item__hover-mockup {
+  position: absolute;
+  z-index: 2;
+  top: 5px;
+  right: 5px;
+  bottom: 5px;
+  left: 5px;
+  transform: translateX(-105%);
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+
+.gallery-item:hover .gallery-item__hover-mockup,
+.gallery-item:focus-visible .gallery-item__hover-mockup {
+  transform: translateX(0);
+}
+
+.gallery-item__hover-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  opacity: 0.32;
+  transition: opacity 0.45s ease;
+}
+
+.gallery-item__hover-mockup::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    rgba(8, 49, 58, 0.55) 0%,
+    rgba(8, 49, 58, 0.25) 45%,
+    transparent 85%
+  );
+  pointer-events: none;
 }
 
 .gallery-item__placeholder {
@@ -697,6 +739,17 @@ body {
   .gallery-item__placeholder-scan {
     animation: none;
     opacity: 0.35;
+  }
+
+  .gallery-item__hover-mockup {
+    transform: none;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+  }
+
+  .gallery-item:hover .gallery-item__hover-mockup,
+  .gallery-item:focus-visible .gallery-item__hover-mockup {
+    opacity: 1;
   }
 }
 

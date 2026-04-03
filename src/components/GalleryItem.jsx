@@ -41,6 +41,14 @@ const GalleryItem = ({ work, onOpen }) => {
             <span className="gallery-item__placeholder-corner gallery-item__placeholder-corner--br" />
             <span className="gallery-item__placeholder-scan" />
           </div>
+          <div className="gallery-item__hover-mockup" aria-hidden="true">
+            <img
+              className="gallery-item__hover-img"
+              src={work.imageURL}
+              alt=""
+              loading="lazy"
+            />
+          </div>
         </div>
       </div>
       <div className="gallery-item__body">

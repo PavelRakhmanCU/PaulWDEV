@@ -17,7 +17,7 @@ export const myWorksData = [
     title: 'Brewtiful Day',
     caption: 'A coffee shop website',
     description:
-      'A single-page style showcase for a coffee shop: menu highlights, atmosphere, and calls to action tuned for quick scanning. Built with React and CSS with attention to typography, spacing, and color so the brand feels warm and approachable on any screen size.',
+      'Brewtiful Day presents a small coffee-shop experience online: guests browse beverages, add items to a shopping cart, and tailor drinks through dedicated customization rules. The build focuses on clear state and predictable data modeling so cart contents and options stay consistent as selections change. The interface is composed from reusable React components and shared styling patterns, which keeps the layout coherent while making the customization flow easy to extend. The result demonstrates practical use of data structures alongside component-driven architecture and maintainable CSS.',
     tech: 'ReactJS, CSS',
     projectUrl: null,
   },

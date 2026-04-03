@@ -41,7 +41,7 @@ export const myWorksData = [
     description:
       'Boston Modern Bath is a straightforward React marketing site for a small construction company serving the Boston area. The centerpiece is a contact form that routes submissions through Formspree, so inquiries are delivered reliably without a custom server. The client also asked for a project gallery to showcase work alongside essential company information. The experience is built to be fully responsive: the priority is letting homeowners and contractors reach the business quickly from a phone or tablet in the field. The site remains in active development as content and polish are iterated with the client.',
     tech: 'ReactJS, Formspree, CSS',
-    projectUrl: null,
+    projectUrl: 'https://boston-modern-bath.netlify.app/',
   },
   {
     id: 'sogdiana-tattoo',

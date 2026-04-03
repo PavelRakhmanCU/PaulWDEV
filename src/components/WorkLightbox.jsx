@@ -28,7 +28,11 @@ const WorkLightbox = ({ work, onClose }) => {
   if (!work) return null;
 
   const tags = parseTech(work.tech);
-  const hasUrl = Boolean(work.projectUrl && String(work.projectUrl).trim());
+  const projectUrl =
+    work.projectUrl != null && String(work.projectUrl).trim() !== ''
+      ? String(work.projectUrl).trim()
+      : '';
+  const hasUrl = projectUrl.length > 0;
 
   return (
     <div
@@ -69,15 +73,16 @@ const WorkLightbox = ({ work, onClose }) => {
           {hasUrl ? (
             <a
               className="work-lightbox__cta"
-              href={work.projectUrl}
+              href={projectUrl}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
             >
-              View website
+              <span className="work-lightbox__cta-label">View website</span>
             </a>
           ) : (
             <button type="button" className="work-lightbox__cta work-lightbox__cta--disabled" disabled>
-              View website
+              <span className="work-lightbox__cta-label">View website</span>
             </button>
           )}
           {!hasUrl && (

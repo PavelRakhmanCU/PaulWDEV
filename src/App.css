@@ -930,6 +930,7 @@ body {
 }
 
 .work-lightbox__cta {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -945,20 +946,106 @@ body {
   cursor: pointer;
   outline: var(--outline);
   outline-offset: -1px;
-  transition:
-    background 0.2s ease,
-    box-shadow 0.2s ease;
+  overflow: hidden;
+  isolation: isolate;
+  transition: background 0.25s ease;
 }
 
-.work-lightbox__cta:hover {
-  background: rgba(92, 216, 90, 0.22);
-  box-shadow: var(--glow);
+/* Linear infinite neon pulse (filter avoids fighting hover box-shadow) */
+.work-lightbox__cta:not(.work-lightbox__cta--disabled) {
+  animation: work-cta-neon-pulse 2.2s linear infinite;
+}
+
+@keyframes work-cta-neon-pulse {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 2px rgba(92, 216, 90, 0.45)) drop-shadow(0 0 8px rgba(92, 216, 90, 0.22));
+  }
+  50% {
+    filter: drop-shadow(0 0 6px rgba(92, 216, 90, 0.95)) drop-shadow(0 0 16px rgba(92, 216, 90, 0.5))
+      drop-shadow(0 0 28px rgba(16, 120, 105, 0.35));
+  }
+}
+
+.work-lightbox__cta-label {
+  position: relative;
+  z-index: 1;
+}
+
+/* Sci-fi ripple rings on hover */
+.work-lightbox__cta:not(.work-lightbox__cta--disabled)::before,
+.work-lightbox__cta:not(.work-lightbox__cta--disabled)::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 140%;
+  aspect-ratio: 1;
+  max-width: none;
+  transform: translate(-50%, -50%) scale(0.2);
+  border: 1px solid rgba(92, 216, 90, 0.35);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  box-shadow:
+    0 0 0 1px rgba(16, 120, 105, 0.2),
+    inset 0 0 12px rgba(92, 216, 90, 0.06);
+}
+
+.work-lightbox__cta:not(.work-lightbox__cta--disabled)::after {
+  border-color: rgba(92, 216, 90, 0.2);
+  box-shadow: 0 0 0 1px rgba(92, 216, 90, 0.12);
+}
+
+.work-lightbox__cta:not(.work-lightbox__cta--disabled):hover {
+  background: rgba(92, 216, 90, 0.18);
+}
+
+.work-lightbox__cta:not(.work-lightbox__cta--disabled):hover::before {
+  animation: work-cta-ripple-a 1.1s linear infinite;
+}
+
+.work-lightbox__cta:not(.work-lightbox__cta--disabled):hover::after {
+  animation: work-cta-ripple-b 1.1s linear infinite 0.35s;
+}
+
+@keyframes work-cta-ripple-a {
+  0% {
+    transform: translate(-50%, -50%) scale(0.15);
+    opacity: 0.65;
+  }
+  70% {
+    opacity: 0.2;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0;
+  }
+}
+
+@keyframes work-cta-ripple-b {
+  0% {
+    transform: translate(-50%, -50%) scale(0.15);
+    opacity: 0.45;
+  }
+  70% {
+    opacity: 0.12;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.05);
+    opacity: 0;
+  }
 }
 
 .work-lightbox__cta--disabled {
   opacity: 0.45;
   cursor: not-allowed;
   pointer-events: none;
+}
+
+.work-lightbox__cta--disabled,
+.work-lightbox__cta--disabled .work-lightbox__cta-label {
+  animation: none;
 }
 
 .work-lightbox__hint {

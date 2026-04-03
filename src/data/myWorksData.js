@@ -27,7 +27,7 @@ export const myWorksData = [
     title: 'AceVentures',
     caption: 'A tennis court booking website',
     description:
-      'AceVentures focuses on making court booking straightforward: clear availability, simple navigation, and a layout that works for players checking slots on mobile. Implemented in React with custom CSS for the visual system and responsive breakpoints.',
+      'AceVentures is a booking experience built around tennis courts: players choose a court and a time window, with availability surfaced in a clear, step-by-step flow. The most substantive logic sits in how open slots are derived—availability is computed from the underlying schedule and reservations, which leans on structured data and small, deliberate algorithms so only valid times are offered as inputs change. The front end is organized with composable React components and a consistent CSS system for layout, typography, and responsive behavior. Together, the project illustrates how component structure, styling discipline, and algorithmic scheduling logic can support a dependable reservation interface.',
     tech: 'ReactJS, CSS',
     projectUrl: null,
   },

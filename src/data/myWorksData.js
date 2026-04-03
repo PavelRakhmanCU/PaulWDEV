@@ -36,9 +36,9 @@ export const myWorksData = [
     imageURL:
       'https://res-console.cloudinary.com/dicvjx88i/thumbnails/v1/image/upload/v1775253370/Ym1iX21vY2t1cF9oZ2VwZWI=/drilldown',
     title: 'Boston Modern Bath',
-    caption: 'A website for a small construction business',
+    caption: 'A website for a small Boston construction business',
     description:
-      'A marketing site for a construction and remodeling business: services, trust-building content, and contact flows via Formspree. Structure and styling aim for clarity and professionalism, with responsive layouts so estimates and inquiries are easy on phones or desktops.',
+      'Boston Modern Bath is a straightforward React marketing site for a small construction company serving the Boston area. The centerpiece is a contact form that routes submissions through Formspree, so inquiries are delivered reliably without a custom server. The client also asked for a project gallery to showcase work alongside essential company information. The experience is built to be fully responsive: the priority is letting homeowners and contractors reach the business quickly from a phone or tablet in the field. The site remains in active development as content and polish are iterated with the client.',
     tech: 'ReactJS, Formspree, CSS',
     projectUrl: null,
   },
@@ -47,9 +47,9 @@ export const myWorksData = [
     imageURL:
       'https://res-console.cloudinary.com/dicvjx88i/thumbnails/v1/image/upload/v1775253387/c29nZGlfbW9ja3VwX3g2MGphYQ==/drilldown',
     title: 'Sogdiana Tattoo Studio',
-    caption: 'A tattoo artist website',
+    caption: 'A tattoo session booking website',
     description:
-      'A portfolio-forward site for a tattoo studio: gallery emphasis, artist story, and booking-oriented contact. Built with React and Formspree, with CSS used to keep the visual tone bold but readable across viewports.',
+      'Sogdiana Tattoo Studio is a session-booking site for an independent tattoo artist. The technical stack mirrors Boston Modern Bath—React, hand-authored CSS, and Formspree for form handling—so patterns stay consistent across client projects. The artist needed the first usable version on a short timeline so she could keep in touch with new and returning clients without interruption; the flow is optimized for booking and messaging from a mobile device on the go. The emphasis is fast, clear communication rather than heavy custom infrastructure. Like the Boston Modern Bath site, this project is still in active development as features and copy evolve.',
     tech: 'ReactJS, Formspree, CSS',
     projectUrl: null,
   },

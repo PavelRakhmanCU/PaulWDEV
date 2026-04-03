@@ -2,8 +2,9 @@
 export const myWorksData = [
   {
     id: 'sakura-fubuki',
+    // Use res.cloudinary.com/.../image/upload/... — res-console URLs are dashboard links and won’t load in <img>.
     imageURL:
-      'https://res-console.cloudinary.com/dicvjx88i/thumbnails/v1/image/upload/v1775253337/c2FrdXJhX2Z1YnVraV9tb2NrdXBfdnhwNGly/drilldown',
+      'https://res.cloudinary.com/dicvjx88i/image/upload/v1775253337/sakura_fubuki_mockup_vxp4ir.png',
     title: 'Sakura Fubuki',
     caption: 'A React restaurant reservation website',
     description:
@@ -34,7 +35,7 @@ export const myWorksData = [
   {
     id: 'boston-modern-bath',
     imageURL:
-      'https://res-console.cloudinary.com/dicvjx88i/thumbnails/v1/image/upload/v1775253370/Ym1iX21vY2t1cF9oZ2VwZWI=/drilldown',
+      'https://res.cloudinary.com/dicvjx88i/image/upload/v1775253370/bmb_mockup_hgepeb.png',
     title: 'Boston Modern Bath',
     caption: 'A website for a small Boston construction business',
     description:
@@ -45,7 +46,7 @@ export const myWorksData = [
   {
     id: 'sogdiana-tattoo',
     imageURL:
-      'https://res-console.cloudinary.com/dicvjx88i/thumbnails/v1/image/upload/v1775253387/c29nZGlfbW9ja3VwX3g2MGphYQ==/drilldown',
+      'https://res.cloudinary.com/dicvjx88i/image/upload/v1775253387/sogdi_mockup_x60jaa.png',
     title: 'Sogdiana Tattoo Studio',
     caption: 'A tattoo session booking website',
     description:

@@ -623,7 +623,7 @@ body {
   outline-offset: 2px;
 }
 
-/* Mockup area: dark mat + frame so white PNG/JPEG assets sit in a defined panel */
+/* Grid: sci-fi placeholder inside frame; full mockup image only in lightbox */
 .gallery-item__thumb {
   flex-shrink: 0;
   padding: 0.5rem;
@@ -638,25 +638,111 @@ body {
 
 .gallery-item__frame {
   position: relative;
+  display: flex;
   height: 158px;
-  padding: 4px;
-  background: rgba(5, 22, 28, 0.92);
-  outline: 1px solid rgba(92, 216, 90, 0.55);
+  padding: 5px;
+  background: rgba(3, 14, 18, 0.96);
+  border: 5px solid rgba(1, 6, 10, 0.98);
+  outline: 1px solid rgba(92, 216, 90, 0.65);
   outline-offset: -1px;
   box-shadow:
-    inset 0 0 0 1px rgba(16, 120, 105, 0.28),
-    0 0 12px rgba(0, 0, 0, 0.35);
+    0 0 8px rgba(92, 216, 90, 0.32),
+    0 0 20px rgba(92, 216, 90, 0.14),
+    inset 0 0 0 1px rgba(16, 120, 105, 0.2);
 }
 
-.gallery-item__img {
-  display: block;
+.gallery-item__placeholder {
+  position: relative;
+  flex: 1;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center top;
-  outline: 1px solid rgba(92, 216, 90, 0.22);
-  outline-offset: -1px;
-  background: rgba(255, 255, 255, 0.04);
+  min-height: 0;
+  overflow: hidden;
+  background-color: var(--darKForestGreen);
+  background-image:
+    linear-gradient(rgba(92, 216, 90, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(92, 216, 90, 0.07) 1px, transparent 1px),
+    radial-gradient(ellipse 120% 80% at 50% 20%, rgba(16, 120, 105, 0.22) 0%, transparent 55%);
+  background-size:
+    14px 14px,
+    14px 14px,
+    100% 100%;
+  background-position: center;
+}
+
+.gallery-item__placeholder-scan {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    transparent 0%,
+    rgba(92, 216, 90, 0.04) 48%,
+    rgba(92, 216, 90, 0.07) 50%,
+    transparent 52%
+  );
+  background-size: 100% 180%;
+  animation: gallery-placeholder-scan 4.5s linear infinite;
+  pointer-events: none;
+  opacity: 0.65;
+}
+
+@keyframes gallery-placeholder-scan {
+  0% {
+    background-position: 0 -40%;
+  }
+  100% {
+    background-position: 0 140%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gallery-item__placeholder-scan {
+    animation: none;
+    opacity: 0.35;
+  }
+}
+
+.gallery-item__placeholder-corner {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border: 1px solid rgba(92, 216, 90, 0.45);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.gallery-item__placeholder-corner--tl {
+  top: 6px;
+  left: 6px;
+  border-right: none;
+  border-bottom: none;
+}
+
+.gallery-item__placeholder-corner--tr {
+  top: 6px;
+  right: 6px;
+  border-left: none;
+  border-bottom: none;
+}
+
+.gallery-item__placeholder-corner--bl {
+  bottom: 6px;
+  left: 6px;
+  border-right: none;
+  border-top: none;
+}
+
+.gallery-item__placeholder-corner--br {
+  bottom: 6px;
+  right: 6px;
+  border-left: none;
+  border-top: none;
+}
+
+.gallery-item:hover .gallery-item__frame {
+  outline-color: rgba(92, 216, 90, 0.85);
+  box-shadow:
+    0 0 12px rgba(92, 216, 90, 0.42),
+    0 0 26px rgba(92, 216, 90, 0.18),
+    inset 0 0 0 1px rgba(16, 120, 105, 0.28);
 }
 
 .gallery-item__body {

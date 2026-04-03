@@ -34,12 +34,13 @@ const GalleryItem = ({ work, onOpen }) => {
     >
       <div className="gallery-item__thumb">
         <div className="gallery-item__frame">
-          <img
-            className="gallery-item__img"
-            src={work.imageURL}
-            alt={work.title}
-            loading="lazy"
-          />
+          <div className="gallery-item__placeholder" aria-hidden="true">
+            <span className="gallery-item__placeholder-corner gallery-item__placeholder-corner--tl" />
+            <span className="gallery-item__placeholder-corner gallery-item__placeholder-corner--tr" />
+            <span className="gallery-item__placeholder-corner gallery-item__placeholder-corner--bl" />
+            <span className="gallery-item__placeholder-corner gallery-item__placeholder-corner--br" />
+            <span className="gallery-item__placeholder-scan" />
+          </div>
         </div>
       </div>
       <div className="gallery-item__body">

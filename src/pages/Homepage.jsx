@@ -3,7 +3,6 @@ import Hero from '../components/Hero';
 import CTA from '../components/CTA';
 import MyExpertise from '../components/MyExpertise';
 import MyWorks from '../components/MyWorks';
-import DownloadCV from '../components/DownloadCV';
 
 const Homepage = () => {
   return (
@@ -12,7 +11,6 @@ const Homepage = () => {
       <CTA />
       <MyExpertise />
       <MyWorks />
-      <DownloadCV />
     </Layout>
   );
 };

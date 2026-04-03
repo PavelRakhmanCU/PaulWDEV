@@ -93,6 +93,12 @@ body {
   backdrop-filter: blur(6px);
 }
 
+@media (max-width: 767px) {
+  .site-header {
+    padding-right: 4.75rem;
+  }
+}
+
 .site-header__tag {
   display: inline-flex;
   align-items: center;
@@ -115,29 +121,38 @@ body {
   outline-offset: 2px;
 }
 
+.site-header__tag-line {
+  display: inline-flex;
+  align-items: baseline;
+  min-width: min(100%, 26ch);
+  min-height: 1.35em;
+}
+
 .site-header__tag-text {
+  display: inline;
+  text-shadow: 0 0 8px rgba(92, 216, 90, 0.42);
+}
+
+.site-header__cursor {
   display: inline-block;
-  animation: header-tag-flicker 3.8s ease-in-out infinite;
+  flex-shrink: 0;
+  margin-left: 2px;
+  font-weight: 700;
+  animation: header-cursor-blink 0.95s step-end infinite;
 }
 
-@keyframes header-tag-flicker {
+@keyframes header-cursor-blink {
   0%,
-  45% {
-    text-shadow: 0 0 6px rgba(92, 216, 90, 0.45);
+  49% {
     opacity: 1;
   }
-  50% {
-    text-shadow: 0 0 14px rgba(92, 216, 90, 0.85);
-    opacity: 0.92;
-  }
-  55%,
+  50%,
   100% {
-    text-shadow: 0 0 6px rgba(92, 216, 90, 0.45);
-    opacity: 1;
+    opacity: 0.2;
   }
 }
 
-/* —— Navbar: desktop top bar / mobile bottom sheet —— */
+/* —— Navbar: desktop top bar / mobile left drawer —— */
 .navbar {
   z-index: 40;
   background: rgba(26, 86, 83, 0.97);
@@ -191,6 +206,10 @@ body {
   color: #e8ffe6;
 }
 
+.navbar__link--download {
+  cursor: pointer;
+}
+
 .navbar__icon {
   display: flex;
   font-size: 1rem;
@@ -216,35 +235,52 @@ body {
 }
 
 @media (max-width: 767px) {
+  :root {
+    --mobile-toggle-gap: 0.65rem;
+    --mobile-toggle-size: 3.25rem;
+  }
+
+  /* Left drawer: at most half the viewport width, full height */
   .navbar {
     position: fixed;
-    left: 0;
-    right: 0;
+    top: 0;
     bottom: 0;
+    left: 0;
+    width: 50vw;
+    display: flex;
+    flex-direction: column;
     border-bottom: none;
-    border-top: var(--outline);
-    transform: translateY(100%);
+    border-top: none;
+    border-right: var(--outline);
+    transform: translateX(-100%);
     transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+    padding-top: env(safe-area-inset-top, 0);
     padding-bottom: env(safe-area-inset-bottom, 0);
-    box-shadow: 0 -8px 28px rgba(0, 0, 0, 0.45);
+    box-shadow: 8px 0 28px rgba(0, 0, 0, 0.45);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .navbar--open {
-    transform: translateY(0);
+    transform: translateX(0);
   }
 
   .navbar__list {
+    flex: 0 0 auto;
     flex-direction: column;
     flex-wrap: nowrap;
+    align-items: stretch;
   }
 
   .navbar__item {
+    flex: 0 0 auto;
     width: 100%;
   }
 
   .navbar__link {
     justify-content: flex-start;
-    padding: 1rem 1.25rem;
+    min-height: unset;
+    padding: 0.6rem 1rem;
     border-bottom: 1px solid rgba(92, 216, 90, 0.2);
     outline: none;
   }
@@ -261,11 +297,12 @@ body {
     align-items: center;
     justify-content: center;
     position: fixed;
+    top: calc(var(--mobile-toggle-gap) + env(safe-area-inset-top, 0));
     right: 1rem;
-    bottom: calc(4.75rem + env(safe-area-inset-bottom, 0));
+    bottom: auto;
     z-index: 50;
-    width: 3.25rem;
-    height: 3.25rem;
+    width: var(--mobile-toggle-size);
+    height: var(--mobile-toggle-size);
     padding: 0;
     margin: 0;
     border: none;
@@ -631,43 +668,6 @@ body {
   outline: 1px solid rgba(92, 216, 90, 0.35);
   outline-offset: -1px;
   color: var(--tealGreen);
-}
-
-/* —— Download CV —— */
-.download-cv {
-  margin: 2.5rem 0 1rem;
-  padding: 1.5rem;
-  outline: var(--outline-soft);
-  outline-offset: -1px;
-  background: rgba(26, 86, 83, 0.2);
-}
-
-.download-cv__title {
-  margin: 0 0 1rem;
-  font-size: 1.1rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.download-cv-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.65rem 1.25rem;
-  border: none;
-  background: rgba(8, 49, 58, 0.85);
-  color: var(--limeGreen);
-  cursor: pointer;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  font-size: 0.78rem;
-  text-decoration: none;
-  outline: var(--outline-soft);
-  outline-offset: -1px;
-}
-
-.download-cv-btn:hover {
-  background: rgba(26, 86, 83, 0.9);
 }
 
 /* —— Footer —— */

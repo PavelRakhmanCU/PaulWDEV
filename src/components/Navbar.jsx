@@ -1,5 +1,5 @@
 // Primary navigation. Desktop: top bar. Mobile: slides up from the bottom when the toggle activates (see App.css).
-import { FaHome, FaEnvelope, FaInfo, FaImages } from 'react-icons/fa';
+import { FaHome, FaEnvelope, FaInfo, FaImages, FaDownload } from 'react-icons/fa';
 import { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 import { GlobalContext } from '../context/GlobalContext';
@@ -14,10 +14,16 @@ const NavBar = () => {
   };
 
   const linkData = [
-    { route: '/', name: 'Home', icon: <FaHome aria-hidden /> },
-    { route: '/contact', name: 'Contact', icon: <FaEnvelope aria-hidden /> },
-    { route: '/works', name: 'Works', icon: <FaImages aria-hidden /> },
-    { route: '/about', name: 'About', icon: <FaInfo aria-hidden /> },
+    { type: 'route', route: '/', name: 'Home', icon: <FaHome aria-hidden /> },
+    { type: 'route', route: '/contact', name: 'Contact', icon: <FaEnvelope aria-hidden /> },
+    { type: 'route', route: '/works', name: 'Works', icon: <FaImages aria-hidden /> },
+    { type: 'route', route: '/about', name: 'About', icon: <FaInfo aria-hidden /> },
+    {
+      type: 'download',
+      href: '/cv.pdf',
+      name: 'Download CV',
+      icon: <FaDownload aria-hidden />,
+    },
   ];
 
   return (
@@ -28,18 +34,30 @@ const NavBar = () => {
     >
       <ul className="navbar__list">
         {linkData.map((link) => (
-          <li key={link.route} className="navbar__item">
-            <NavLink
-              to={link.route}
-              end={link.route === '/'}
-              className={({ isActive }) =>
-                `navbar__link${isActive ? ' navbar__link--active' : ''}`
-              }
-              onClick={closeIfMobile}
-            >
-              <span className="navbar__icon">{link.icon}</span>
-              <span className="navbar__label">{link.name}</span>
-            </NavLink>
+          <li key={link.type === 'route' ? link.route : link.href} className="navbar__item">
+            {link.type === 'route' ? (
+              <NavLink
+                to={link.route}
+                end={link.route === '/'}
+                className={({ isActive }) =>
+                  `navbar__link${isActive ? ' navbar__link--active' : ''}`
+                }
+                onClick={closeIfMobile}
+              >
+                <span className="navbar__icon">{link.icon}</span>
+                <span className="navbar__label">{link.name}</span>
+              </NavLink>
+            ) : (
+              <a
+                className="navbar__link navbar__link--download"
+                href={link.href}
+                download
+                onClick={closeIfMobile}
+              >
+                <span className="navbar__icon">{link.icon}</span>
+                <span className="navbar__label">{link.name}</span>
+              </a>
+            )}
           </li>
         ))}
       </ul>

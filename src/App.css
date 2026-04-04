@@ -1205,6 +1205,85 @@ body {
   color: rgba(184, 247, 180, 0.88);
 }
 
+/* —— About page —— */
+.about-page__title {
+  margin: 0 0 1.75rem;
+  font-size: 1.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #e8ffe6;
+}
+
+.about-page__layout {
+  display: grid;
+  gap: 2rem;
+  align-items: start;
+}
+
+@media (min-width: 900px) {
+  .about-page__layout {
+    grid-template-columns: minmax(240px, 340px) minmax(0, 1fr);
+    gap: 2.5rem;
+  }
+}
+
+.about-page__figure {
+  margin: 0;
+}
+
+.about-page__frame {
+  overflow: hidden;
+  padding: 5px;
+  background: rgba(3, 14, 18, 0.96);
+  border: 5px solid rgba(1, 6, 10, 0.98);
+  outline: 1px solid rgba(92, 216, 90, 0.65);
+  outline-offset: -1px;
+  box-shadow:
+    0 0 8px rgba(92, 216, 90, 0.28),
+    0 0 20px rgba(92, 216, 90, 0.12),
+    inset 0 0 0 1px rgba(16, 120, 105, 0.2);
+}
+
+.about-page__img {
+  display: block;
+  width: 100%;
+  height: auto;
+  outline: 1px solid rgba(92, 216, 90, 0.22);
+  outline-offset: -1px;
+}
+
+.about-page__caption {
+  margin: 0.65rem 0 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--tealGreen);
+}
+
+.about-page__story {
+  max-width: 40rem;
+}
+
+.about-page__p {
+  margin: 0 0 1.1rem;
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: rgba(184, 247, 180, 0.88);
+}
+
+.about-page__p:first-of-type {
+  font-size: 1.05rem;
+  letter-spacing: 0.04em;
+  color: #e8ffe6;
+}
+
+.about-page__p:last-child {
+  margin-bottom: 0;
+  padding-top: 0.35rem;
+  letter-spacing: 0.06em;
+  color: var(--limeGreen);
+}
+
 @media (min-width: 768px) {
   .layout__main {
     padding-left: 2rem;

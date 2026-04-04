@@ -20,7 +20,8 @@ const NavBar = () => {
     { type: 'route', route: '/about', name: 'About', icon: <FaInfo aria-hidden /> },
     {
       type: 'download',
-      href: '/cv.pdf',
+      href: '/CV_Paul_Rakhman.pdf',
+      downloadFileName: 'CV_Paul_Rakhman.pdf',
       name: 'Download CV',
       icon: <FaDownload aria-hidden />,
     },
@@ -34,7 +35,10 @@ const NavBar = () => {
     >
       <ul className="navbar__list">
         {linkData.map((link) => (
-          <li key={link.type === 'route' ? link.route : link.href} className="navbar__item">
+          <li
+            key={link.type === 'route' ? link.route : link.href}
+            className="navbar__item"
+          >
             {link.type === 'route' ? (
               <NavLink
                 to={link.route}
@@ -51,7 +55,7 @@ const NavBar = () => {
               <a
                 className="navbar__link navbar__link--download"
                 href={link.href}
-                download
+                download={link.downloadFileName}
                 onClick={closeIfMobile}
               >
                 <span className="navbar__icon">{link.icon}</span>

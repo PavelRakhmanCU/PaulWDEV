@@ -1,10 +1,14 @@
-// Cycling typewriter-style tag: types each phrase, pauses, deletes, repeats; click reloads the page.
+// Cycling typewriter-style tag: types each phrase, pauses, deletes, repeats; click reloads on home or goes home elsewhere.
 import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const PHRASES = ['<Paul Rakhman>', 'Click to reload the page'];
 
 const Header = () => {
   const [displayText, setDisplayText] = useState('');
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isHome = location.pathname === '/';
 
   useEffect(() => {
     let cancelled = false;
@@ -57,13 +61,25 @@ const Header = () => {
     };
   }, []);
 
+  const handleTagClick = () => {
+    if (isHome) {
+      try {
+        window.location.reload();
+      } catch {
+        navigate('/', { replace: true });
+      }
+      return;
+    }
+    navigate('/', { replace: false });
+  };
+
   return (
     <header className="site-header">
       <button
         type="button"
         className="site-header__tag"
-        onClick={() => window.location.reload()}
-        aria-label="Reload the page"
+        onClick={handleTagClick}
+        aria-label={isHome ? 'Reload the page' : 'Go to home page'}
       >
         <span className="site-header__tag-line">
           <span className="site-header__tag-text">{displayText}</span>

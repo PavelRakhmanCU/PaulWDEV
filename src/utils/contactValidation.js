@@ -51,3 +51,34 @@ export function runContactValidation(values) {
 export function hasValidationErrors(errorMap) {
   return Object.values(errorMap).some((msg) => msg != null && msg !== '');
 }
+
+/**
+ * Unique per submission so inbox clients (e.g. Gmail) do not thread every contact as one conversation.
+ * Includes ISO time + random id so subjects never match previous sends.
+ */
+export function buildUniqueEmailSubject({ firstName, lastName } = {}) {
+  const fn = String(firstName ?? '').trim();
+  const ln = String(lastName ?? '').trim();
+  const who = [fn, ln].filter(Boolean).join(' ') || 'Visitor';
+  const iso = new Date().toISOString();
+  const id =
+    typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'
+      ? crypto.randomUUID()
+      : `${Date.now()}-${Math.random().toString(36).slice(2, 12)}`;
+  return `Portfolio — ${who} — ${iso} — ${id}`;
+}
+
+/** Validates the generated subject before send (should always pass if buildUniqueEmailSubject is used). */
+export function validateEmailSubject(subject) {
+  const s = String(subject ?? '').trim();
+  if (!s) return 'Message subject could not be generated.';
+  if (s.length < 32) return 'Message subject is invalid (too short).';
+  if (!s.startsWith('Portfolio —')) return 'Message subject is invalid (format).';
+  const parts = s.split(' — ');
+  if (parts.length < 4) return 'Message subject is invalid (missing segments).';
+  if (!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/.test(parts[2] ?? '')) {
+    return 'Message subject is invalid (timestamp).';
+  }
+  if (!(parts[3] ?? '').length) return 'Message subject is invalid (unique id).';
+  return null;
+}

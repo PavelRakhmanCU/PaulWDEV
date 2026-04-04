@@ -1,11 +1,15 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useForm, ValidationError } from '@formspree/react';
 import Layout from '../components/Layout';
 import {
+  buildUniqueEmailSubject,
   runContactValidation,
   hasValidationErrors,
+  validateEmailSubject,
 } from '../utils/contactValidation';
 
-const FORM_ENDPOINT = process.env.REACT_APP_CONTACT_FORM_ENDPOINT || '';
+/** Formspree form id (hash), e.g. xykbbwly — set REACT_APP_FORMSPREE_FORM_ID in .env if different */
+const FORMSPREE_FORM_ID = process.env.REACT_APP_FORMSPREE_FORM_ID || 'xykbbwly';
 
 const initialValues = {
   firstName: '',
@@ -16,16 +20,15 @@ const initialValues = {
 };
 
 const ContactPage = () => {
+  const [formspreeState, submitToFormspree] = useForm(FORMSPREE_FORM_ID);
   const [values, setValues] = useState(initialValues);
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
-  const [status, setStatus] = useState(null);
   const [submitError, setSubmitError] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const subjectInputRef = useRef(null);
 
   const setField = (name, v) => {
     setValues((prev) => ({ ...prev, [name]: v }));
-    if (status === 'success') setStatus(null);
   };
 
   const touch = (name) => setTouched((prev) => ({ ...prev, [name]: true }));
@@ -35,6 +38,16 @@ const ContactPage = () => {
     const merged = { ...values, [field]: currentValue };
     setErrors(runContactValidation(merged));
   };
+
+  useEffect(() => {
+    if (formspreeState.succeeded) {
+      setValues(initialValues);
+      setErrors({});
+      setTouched({});
+      setSubmitError('');
+      if (subjectInputRef.current) subjectInputRef.current.value = '';
+    }
+  }, [formspreeState.succeeded]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -50,59 +63,35 @@ const ContactPage = () => {
     });
 
     if (hasValidationErrors(nextErrors)) {
-      setStatus('error');
       return;
     }
 
-    if (!FORM_ENDPOINT) {
-      setSubmitError(
-        'Form delivery is not configured. Add REACT_APP_CONTACT_FORM_ENDPOINT to your .env (e.g. your Formspree URL).',
-      );
-      setStatus('error');
+    const uniqueSubject = buildUniqueEmailSubject({
+      firstName: values.firstName,
+      lastName: values.lastName,
+    });
+    const subjectErr = validateEmailSubject(uniqueSubject);
+    if (subjectErr) {
+      setSubmitError(subjectErr);
       return;
     }
 
-    setIsSubmitting(true);
-    setStatus(null);
-
-    try {
-      const res = await fetch(FORM_ENDPOINT, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          firstName: values.firstName.trim(),
-          lastName: values.lastName.trim(),
-          email: values.email.trim(),
-          _replyto: values.email.trim(),
-          phone: values.phone.trim(),
-          notes: values.notes.trim(),
-          _subject: `Portfolio: ${values.firstName.trim()} ${values.lastName.trim()}`,
-        }),
-      });
-
-      const data = await res.json().catch(() => ({}));
-
-      if (!res.ok) {
-        throw new Error(data.error || 'Something went wrong. Try again later.');
-      }
-
-      setStatus('success');
-      setValues(initialValues);
-      setErrors({});
-      setTouched({});
-    } catch (err) {
-      setSubmitError(err.message || 'Submission failed.');
-      setStatus('error');
-    } finally {
-      setIsSubmitting(false);
+    if (subjectInputRef.current) {
+      subjectInputRef.current.value = uniqueSubject;
     }
+
+    await submitToFormspree({
+      firstName: values.firstName.trim(),
+      lastName: values.lastName.trim(),
+      email: values.email.trim(),
+      phone: values.phone.trim(),
+      notes: values.notes.trim(),
+      subject: uniqueSubject,
+      _subject: uniqueSubject,
+    });
   };
 
-  const showError = (field) =>
-    Boolean(touched[field] && errors[field]);
+  const showError = (field) => Boolean(touched[field] && errors[field]);
 
   return (
     <Layout>
@@ -115,7 +104,7 @@ const ContactPage = () => {
           routed.
         </p>
 
-        {status === 'success' && (
+        {formspreeState.succeeded && (
           <p className="contact-page__banner contact-page__banner--success" role="status">
             Message received. I will get back to you as soon as possible.
           </p>
@@ -128,6 +117,16 @@ const ContactPage = () => {
         )}
 
         <form className="contact-form" onSubmit={handleSubmit} noValidate>
+          <input
+            ref={subjectInputRef}
+            type="hidden"
+            id="contact-form-subject"
+            name="subject"
+            defaultValue=""
+            autoComplete="off"
+            tabIndex={-1}
+            aria-hidden="true"
+          />
           <div className="contact-form__grid">
             <div className="contact-form__field">
               <label className="contact-form__label" htmlFor="contact-first-name">
@@ -150,6 +149,7 @@ const ContactPage = () => {
                   {errors.firstName}
                 </span>
               )}
+              <ValidationError className="contact-form__error" field="firstName" errors={formspreeState.errors} prefix="" />
             </div>
 
             <div className="contact-form__field">
@@ -173,6 +173,7 @@ const ContactPage = () => {
                   {errors.lastName}
                 </span>
               )}
+              <ValidationError className="contact-form__error" field="lastName" errors={formspreeState.errors} prefix="" />
             </div>
 
             <div className="contact-form__field contact-form__field--full">
@@ -197,6 +198,7 @@ const ContactPage = () => {
                   {errors.email}
                 </span>
               )}
+              <ValidationError className="contact-form__error" field="email" errors={formspreeState.errors} prefix="" />
             </div>
 
             <div className="contact-form__field contact-form__field--full">
@@ -222,6 +224,7 @@ const ContactPage = () => {
                   {errors.phone}
                 </span>
               )}
+              <ValidationError className="contact-form__error" field="phone" errors={formspreeState.errors} prefix="" />
             </div>
 
             <div className="contact-form__field contact-form__field--full">
@@ -244,12 +247,19 @@ const ContactPage = () => {
                   {errors.notes}
                 </span>
               )}
+              <ValidationError className="contact-form__error" field="notes" errors={formspreeState.errors} prefix="" />
             </div>
           </div>
 
+          <ValidationError className="contact-page__banner contact-page__banner--error" errors={formspreeState.errors} />
+
           <div className="contact-form__actions">
-            <button type="submit" className="contact-form__submit" disabled={isSubmitting}>
-              {isSubmitting ? 'Transmitting…' : 'Submit'}
+            <button
+              type="submit"
+              className="contact-form__submit"
+              disabled={formspreeState.submitting}
+            >
+              {formspreeState.submitting ? 'Transmitting…' : 'Submit'}
             </button>
           </div>
         </form>
